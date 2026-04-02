@@ -1,182 +1,182 @@
-# Trabalho de Redes
+# RDT com Grafos — Simulação de Transporte Confiável
 
-## Implementação de um RDT utilizando Grafos (Camada de Transporte)
+## Visão Geral
 
----
-
-## 📌 Objetivo
-
-Desenvolver uma aplicação que simula o funcionamento de protocolos de **Transferência Confiável de Dados (RDT)** sobre uma rede representada por **grafos ponderados**, incluindo fragmentação de arquivos e escolha de melhor caminho.
+Aplicação para simular protocolos de Transferência Confiável de Dados (RDT) sobre uma rede modelada como grafo ponderado. O sistema permite observar, de forma visual e controlada, o envio de pacotes, perdas, retransmissões e escolha de rotas.
 
 ---
 
-## 🧱 Arquitetura
+## Objetivo
 
-A aplicação será dividida em duas camadas principais:
+Simular o comportamento da camada de transporte com foco em:
 
-* **Frontend (React.js)**
-* **Backend (API em Python)**
-
-### 🔄 Ciclo de Vida
-
-Serão implementados **hooks com lifecycle**, permitindo controle das etapas do envio de dados:
-
-* Inicialização
-* Envio de pacotes
-* Recebimento de ACKs
-* Reenvio em caso de falha
-* Finalização da transmissão
+* Confiabilidade na entrega de dados
+* Fragmentação de arquivos
+* Controle de erros e retransmissão
+* Roteamento baseado em menor custo
 
 ---
 
-## 📡 RDTs (Reliable Data Transfer)
+## Arquitetura
 
-Serão implementadas múltiplas versões de RDT seguindo o princípio **DRY (Don’t Repeat Yourself)**:
+Separação clara entre responsabilidades:
 
-* Reutilização de código entre versões
-* Separação de responsabilidades
-* Estrutura modular para evolução dos protocolos
-
-Exemplos de versões possíveis:
-
-* RDT 1.0
-* RDT 2.0
-* RDT 3.0
-
----
-
-## 🎲 Algoritmo de Parâmetros Aleatórios
-
-Para simular condições reais de rede, será implementado um mecanismo de aleatoriedade baseado em **porcentagem de perda/corrupção de pacotes**.
-
-### Funcionamento
-
-* Durante a geração do grafo, será definido um parâmetro global de perda (ex: 35%)
-* Cada pacote (JSON) terá um atributo chamado `DROP`
-* Esse atributo define a probabilidade de o pacote ser:
-
-  * Perdido
-  * Corrompido
-  * Entregue com sucesso
-
-### Lógica de Decisão
-
-O algoritmo funcionará de forma semelhante a um **dado (ex: D20)**:
-
-* Um valor aleatório será gerado a cada envio de pacote
-* Esse valor será comparado com a porcentagem definida
-* Com base nisso, o sistema decide o destino do pacote
-
-### Exemplo
-
-* Pacote com ID: `xyz`
-* Probabilidade de falha: **35%**
-
-Resultado possível:
-
-* 35% → pacote perdido ou corrompido
-* 65% → pacote entregue com sucesso
-
-Esse mecanismo será essencial para testar a robustez dos protocolos RDT implementados.
-
----
-
-## 🧮 Algoritmo de Melhor Caminho
-
-A comunicação entre os nós da rede será baseada em:
-
-### Grafos Ponderados
-
-* Cada nó representa um ponto da rede
-* Cada aresta possui um peso (latência, custo, etc.)
-
-Será utilizado o algoritmo de **Dijkstra** para encontrar o melhor caminho entre origem e destino.
-
----
-
-## 🔗 Comunicação entre Frontend e Backend
-
-A API será responsável por intermediar a comunicação com o frontend.
-
-### Fluxo:
-
-1. O frontend solicita a criação de um grafo:
-
-   * Aleatório
-   * Ou definido por parâmetros (nós e arestas)
-
-2. O usuário define:
-
-   * Remetente
-   * Destinatário
-   * Nome do arquivo
-   * Extensão
-   * Tamanho
-
-3. O backend:
-
-   * Processa os dados
-   * Fragmenta o arquivo
-   * Inicia o envio dos pacotes
-
----
-
-## ⚙️ Funcionamento do Backend
-
-O backend será responsável por:
-
-* Fragmentar o arquivo com base no tamanho definido
-* Ordenar os pacotes
-* Aplicar as regras dos protocolos RDT
-* Garantir confiabilidade na entrega
-
-Cada pacote será representado como um objeto JSON:
-
-```json
-{
-  "id": "xyz",
-  "arquivo": "nome_arquivo.extensao",
-  "tamanho": "tamanho_fragmento"
-}
 ```
-
-Os pacotes serão enviados ao frontend para visualização do processo.
-
----
-
-## 🧰 Stack Tecnológica
-
-### Backend
-
-* Python
-* Biblioteca de grafos com suporte ao algoritmo de Dijkstra
+Frontend (React)
+    ↓
+API (Python)
+    ↓
+Motor de Simulação (RDT + Grafos)
+```
 
 ### Frontend
 
-* React.js
+* Interface visual da rede (grafo)
+* Configuração da transmissão
+* Exibição do fluxo de pacotes em tempo real
+
+### Backend
+
+* Geração e manipulação do grafo
+* Execução dos algoritmos de roteamento
+* Implementação dos protocolos RDT
+* Simulação de falhas de rede
 
 ---
 
-## 🚀 Considerações Finais
+## Protocolos RDT
 
-Este projeto permite visualizar e compreender conceitos fundamentais de redes de computadores, como:
+Implementação modular e evolutiva:
 
-* Protocolos de transporte confiáveis (RDT)
-* Fragmentação de dados
-* Controle de erros e retransmissão
-* Algoritmos de roteamento
+* RDT 1.0 — Canal perfeito
+* RDT 2.0 — Detecção de erros (ACK/NAK)
+* RDT 3.0 — Retransmissão com timeout
 
-Além disso, promove boas práticas de desenvolvimento como:
+Estratégia:
 
-* Código reutilizável (DRY)
-* Arquitetura modular
-* Separação entre frontend e backend
+* Reutilização de código
+* Isolamento por responsabilidade
+* Extensibilidade para novas variações
 
 ---
 
-## 📎 Possíveis Extensões Futuras
+## Simulação de Rede
 
-* Simulação de perda de pacotes
-* Introdução de atraso na rede
-* Interface gráfica mais interativa
-* Comparação entre diferentes algoritmos de roteamento
+### Modelo
+
+* Grafo ponderado
+* Nós → dispositivos
+* Arestas → conexões com custo (latência)
+
+### Roteamento
+
+* Algoritmo de Dijkstra
+* Cálculo do menor caminho entre origem e destino
+
+---
+
+## Simulação de Falhas
+
+Cada pacote possui comportamento probabilístico.
+
+Parâmetros:
+
+* Taxa de perda
+* Taxa de corrupção
+
+Execução:
+
+* Geração de valor aleatório por pacote
+* Decisão baseada em threshold
+
+Estados possíveis:
+
+* Entregue
+* Perdido
+* Corrompido
+
+---
+
+## Fluxo de Execução
+
+1. Definição do grafo (aleatório ou manual)
+2. Configuração da transmissão:
+
+   * Origem
+   * Destino
+   * Arquivo
+   * Tamanho
+3. Fragmentação dos dados
+4. Envio dos pacotes
+5. Recebimento de ACK/NAK
+6. Retransmissões quando necessário
+7. Finalização
+
+---
+
+## Estrutura de Pacote
+
+```json
+{
+  "id": "string",
+  "arquivo": "string",
+  "tamanho": "number",
+  "status": "sent | lost | corrupted | delivered"
+}
+```
+
+---
+
+## Stack
+
+**Frontend**
+
+* React
+
+**Backend**
+
+* Python
+* Biblioteca de grafos (ex: NetworkX)
+
+---
+
+## Execução
+
+### Backend
+
+```bash
+cd backend
+pip install -r requirements.txt
+python app.py
+```
+
+### Frontend
+
+```bash
+cd frontend
+npm install
+npm start
+```
+
+---
+
+## Extensões
+
+* Simulação de atraso (latência variável)
+* Controle de janela (Sliding Window)
+* Comparação entre algoritmos de roteamento
+* Persistência de simulações
+* Visualização temporal (timeline de eventos)
+
+---
+
+## Finalidade Acadêmica
+
+Projeto voltado para compreensão prática de:
+
+* Camada de transporte
+* Protocolos confiáveis
+* Redes baseadas em grafos
+* Tolerância a falhas
+
+Foco em experimentação e visualização do comportamento dos protocolos.
