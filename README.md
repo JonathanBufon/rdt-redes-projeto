@@ -180,3 +180,17 @@ Projeto voltado para compreensão prática de:
 * Tolerância a falhas
 
 Foco em experimentação e visualização do comportamento dos protocolos.
+
+---
+
+## Referências e Documentação
+
+- Graph Theory (conceitos fundamentais de grafos):  
+  [Graph Theory Tutorial](https://www.geeksforgeeks.org/visualize-graphs-in-python/?utm_source=chatgpt.com)  
+
+- NetworkX (biblioteca para manipulação de grafos em Python):  
+  [NetworkX Python Package](https://www.geeksforgeeks.org/python/networkx-python-software-package-study-complex-networks/?utm_source=chatgpt.com)  
+
+- Visualização de grafos com NetworkX + Matplotlib:  
+  [Visualize Graphs with NetworkX](https://www.geeksforgeeks.org/python/python-visualize-graphs-generated-in-networkx-using-matplotlib/?utm_source=chatgpt.com)  
+
